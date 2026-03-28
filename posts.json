@@ -1,0 +1,20 @@
+[
+  {
+    "id": "b097cd50-5f8e-46cf-a43b-5295e28262df",
+    "username": "John Doe",
+    "content": "i am king",
+    "likes": 0
+  },
+  {
+    "id": "37e99cf3-b3ba-4f3d-a5e6-2214f267be22",
+    "username": "Jane Doe",
+    "content": "i am queen",
+    "likes": 0
+  },
+  {
+    "id": "c4b7273a-277f-4f56-bcff-2736b44b8623",
+    "username": "Jack Doe",
+    "content": "i am prince",
+    "likes": 0
+  }
+]

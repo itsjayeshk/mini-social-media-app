@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>All Posts</h1>
+
+<% for(let post of posts){ %>
+<div class="post">
+
+    <h3 class="username">@<%= post.username %></h3>
+    <h4 class="content"><%= post.content %></h4>
+
+    <!-- ❤️ Likes -->
+    <p id="likes-<%= post.id %>">❤️ <%= post.likes.length %></p>
+
+    <!-- Toggle Button -->
+    <button id="btn-<%= post.id %>" onclick="likePost('<%= post.id %>')">
+        <% if(post.likes.includes(currentUser)) { %>
+            Unlike
+        <% } else { %>
+            Like
+        <% } %>
+    </button>
+
+    <br><br>
+
+    <a href="/posts/<%=post.id%>">See in detail</a>
+    <a href="/posts/<%=post.id%>/edit">Edit</a>
+
+    <form method="post" action="/posts/<%=post.id%>?_method=DELETE">
+        <button>Delete Post</button>
+    </form>
+
+</div>
+<% } %>
+
+<br><br>
+<a href="/posts/new">Create New Post</a>
+
+<!-- 🔥 SCRIPT -->
+<script>
+async function likePost(id) {
+    let res = await fetch(`/posts/${id}/like`, {
+        method: 'POST'
+    });
+
+    let data = await res.json();
+
+    document.getElementById(`likes-${id}`).innerText = `❤️ ${data.likes}`;
+
+    let btn = document.getElementById(`btn-${id}`);
+    btn.innerText = data.liked ? "Unlike" : "Like";
+}
+</script>
+
+</body>
+</html>

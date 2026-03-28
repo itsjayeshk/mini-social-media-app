@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ─── RESET & BASE ─────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg:         #0d0d0d;
+  --surface:    #141414;
+  --card:       #1a1a1a;
+  --border:     #2a2a2a;
+  --accent:     #e8a045;
+  --accent-dim: #c4832a;
+  --accent-glow: rgba(232, 160, 69, 0.18);
+  --text:       #f0ece4;
+  --muted:      #6b6560;
+  --danger:     #c0392b;
+  --danger-dim: #922b21;
+  --radius:     12px;
+  --radius-lg:  20px;
+  --mono:       'JetBrains Mono', monospace;
+  --serif:      'Playfair Display', Georgia, serif;
+  --sans:       'DM Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  min-height: 100vh;
+  line-height: 1.65;
+  /* Subtle noise texture overlay */
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232, 160, 69, 0.06) 0%, transparent 70%);
+}
+
+/* ─── TYPOGRAPHY ────────────────────────────────────────────── */
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h4 {
+  font-family: var(--sans);
+  font-weight: 400;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+a:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+/* ─── LAYOUT WRAPPER ────────────────────────────────────────── */
+body > * {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── INDEX PAGE ────────────────────────────────────────────── */
+body > h1 {
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  padding-top: 72px;
+  padding-bottom: 8px;
+  background: linear-gradient(135deg, var(--text) 40%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.04em;
+}
+
+/* Thin horizontal rule under the big heading */
+body > h1::after {
+  content: '';
+  display: block;
+  margin-top: 20px;
+  width: 64px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ─── POST CARDS ────────────────────────────────────────────── */
+.post {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-top: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.25s,
+              box-shadow 0.25s;
+}
+
+.post::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.post:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-dim);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--accent-dim);
+}
+
+.post:hover::before {
+  opacity: 1;
+}
+
+/* Username badge */
+.username, h3.user {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Content text */
+.content, h4 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+/* ─── ACTION ROW (links + delete button) ───────────────────── */
+.post > a,
+.post > form {
+  display: inline-block;
+}
+
+.post > a {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-right: 8px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  text-transform: uppercase;
+}
+
+.post > a:hover {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  background: var(--accent-glow);
+}
+
+/* Delete button (inside a form) */
+.post > form {
+  display: inline-block;
+  margin-top: 0;
+}
+
+.post > form button,
+form button[type="submit"] {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid #3a1a1a;
+  background: transparent;
+  color: #854040;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.post > form button:hover {
+  color: #fff;
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ─── CREATE NEW POST LINK ──────────────────────────────────── */
+body > a[href="/posts/new"],
+body > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 48px;
+  margin-bottom: 72px;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: #0d0d0d;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(232, 160, 69, 0.3);
+}
+
+body > a[href="/posts/new"]:hover,
+body > a:hover {
+  background: #fbb155;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232, 160, 69, 0.45);
+  color: #0d0d0d;
+}
+
+/* ─── FORMS (new.ejs & edit.ejs) ────────────────────────────── */
+body > h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  padding-top: 72px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+/* ID / Username meta info on edit page */
+body > p {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+}
+
+form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px;
+  margin-top: 32px;
+  margin-bottom: 64px;
+}
+
+input[type="text"],
+input[placeholder] {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1rem;
+  padding: 13px 18px;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  display: block;
+}
+
+input[placeholder]:focus {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+input[placeholder]::placeholder {
+  color: var(--muted);
+  font-style: italic;
+}
+
+textarea {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  padding: 16px 18px;
+  resize: vertical;
+  min-height: 160px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  display: block;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+textarea:focus {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+textarea::placeholder {
+  color: var(--muted);
+}
+
+/* Submit / Create button */
+form > button,
+form button[type="submit"],
+button[type="submit"] {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 13px 32px;
+  background: var(--accent);
+  color: #0d0d0d;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 18px rgba(232, 160, 69, 0.28);
+}
+
+form > button:hover,
+button[type="submit"]:hover {
+  background: #fbb155;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(232, 160, 69, 0.42);
+}
+
+/* ─── SHOW PAGE ─────────────────────────────────────────────── */
+body > div.post {
+  margin-top: 32px;
+  margin-bottom: 64px;
+  padding: 40px 44px;
+}
+
+body > div.post h3.user {
+  font-size: 0.85rem;
+}
+
+body > div.post h4 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Post ID pills */
+body > p:first-of-type {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  display: inline-block;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ─── SELECTION ─────────────────────────────────────────────── */
+::selection {
+  background: var(--accent);
+  color: #0d0d0d;
+}
+
+/* ─── FADE-IN ANIMATION ─────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+body > h1,
+body > h2,
+.post,
+form {
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.post:nth-child(2) { animation-delay: 0.05s; }
+.post:nth-child(3) { animation-delay: 0.10s; }
+.post:nth-child(4) { animation-delay: 0.15s; }
+.post:nth-child(5) { animation-delay: 0.20s; }
+.post:nth-child(6) { animation-delay: 0.25s; }
